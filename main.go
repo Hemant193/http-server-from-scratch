@@ -21,14 +21,20 @@ func main()  {
 		client, err := connection.Accept()
 		if err != nil {
 			log.Printf("Failed to accept connections: %v", err)
+			continue // to accept new connections
 		}
-	
-		response := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 12\r\n\r\nHello, World!"
-		_, err = client.Write([]byte(response))
+		
+		go handleReq(client)
+		
+	}
+
+}
+
+func handleReq(conn net.Conn) {
+	response := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 12\r\n\r\nHello, World!"
+		_, err := conn.Write([]byte(response))
 		if err != nil {
 			log.Printf("Failed to write response: %v", err)
 		}
-		client.Close()
-	}
-
+		conn.Close()
 }
