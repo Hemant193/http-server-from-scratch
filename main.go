@@ -16,4 +16,18 @@ func main()  {
 	defer connection.Close()
 	log.Println("Server started at port 8080")
 
+	// Looping and accepting connections
+	for {
+		client, err := connection.Accept()
+		if err != nil {
+			log.Printf("Failed to accept connections: %v", err)
+		}
+		continue
+	
+		// Closing the connection
+		client.Close()
+	}
+
+	
+
 }
